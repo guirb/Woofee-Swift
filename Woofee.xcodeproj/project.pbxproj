@@ -13,6 +13,9 @@
 		3FA618CC1BFE060100F84F07 /* Woofee.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3FA618CA1BFE060100F84F07 /* Woofee.xcdatamodeld */; };
 		3FA618CE1BFE060100F84F07 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3FA618CD1BFE060100F84F07 /* Assets.xcassets */; };
 		3FA618D11BFE060100F84F07 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3FA618CF1BFE060100F84F07 /* LaunchScreen.storyboard */; };
+		3FAF66971C0486DF00EEBA74 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FAF66961C0486DF00EEBA74 /* FBSDKCoreKit.framework */; };
+		3FAF66991C0486FF00EEBA74 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FAF66981C0486FF00EEBA74 /* FBSDKLoginKit.framework */; };
+		3FAF669B1C04870800EEBA74 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FAF669A1C04870800EEBA74 /* FBSDKShareKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +27,9 @@
 		3FA618CD1BFE060100F84F07 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3FA618D01BFE060100F84F07 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3FA618D21BFE060100F84F07 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3FAF66961C0486DF00EEBA74 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = "../FacebookSDKs-iOS-20151111/FBSDKCoreKit.framework"; sourceTree = "<group>"; };
+		3FAF66981C0486FF00EEBA74 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = "../FacebookSDKs-iOS-20151111/FBSDKLoginKit.framework"; sourceTree = "<group>"; };
+		3FAF669A1C04870800EEBA74 /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKShareKit.framework; path = "../FacebookSDKs-iOS-20151111/FBSDKShareKit.framework"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,6 +37,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3FAF66991C0486FF00EEBA74 /* FBSDKLoginKit.framework in Frameworks */,
+				3FAF66971C0486DF00EEBA74 /* FBSDKCoreKit.framework in Frameworks */,
+				3FAF669B1C04870800EEBA74 /* FBSDKShareKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -40,6 +49,9 @@
 		3FA618B71BFE060100F84F07 = {
 			isa = PBXGroup;
 			children = (
+				3FAF669A1C04870800EEBA74 /* FBSDKShareKit.framework */,
+				3FAF66981C0486FF00EEBA74 /* FBSDKLoginKit.framework */,
+				3FAF66961C0486DF00EEBA74 /* FBSDKCoreKit.framework */,
 				3FA618C21BFE060100F84F07 /* Woofee */,
 				3FA618C11BFE060100F84F07 /* Products */,
 			);
@@ -252,7 +264,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = Woofee/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = OCI.Woofee;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -264,7 +281,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = Woofee/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = OCI.Woofee;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -290,6 +312,7 @@
 				3FA618D71BFE060100F84F07 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 

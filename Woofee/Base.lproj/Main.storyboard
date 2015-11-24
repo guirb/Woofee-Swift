@@ -19,9 +19,47 @@
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
+                    <connections>
+                        <segue destination="D7Z-PM-S4A" kind="presentation" identifier="showNew" id="Uip-Fz-1hd"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="279" y="262"/>
+        </scene>
+        <!--ProfileViewController-->
+        <scene sceneID="lqb-6s-WlT">
+            <objects>
+                <viewController title="ProfileViewController" id="D7Z-PM-S4A" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="uNt-3M-wSu"/>
+                        <viewControllerLayoutGuide type="bottom" id="lFw-dH-7qU"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="YRb-B4-zHE">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Woofee :)" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xh3-1J-09w">
+                                <rect key="frame" x="0.0" y="289" width="600" height="21"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <animations/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Xh3-1J-09w" firstAttribute="leading" secondItem="YRb-B4-zHE" secondAttribute="leading" id="JXX-TW-tWy"/>
+                            <constraint firstItem="Xh3-1J-09w" firstAttribute="top" secondItem="uNt-3M-wSu" secondAttribute="bottom" constant="269" id="Ng7-NX-w4g"/>
+                            <constraint firstItem="Xh3-1J-09w" firstAttribute="centerY" secondItem="YRb-B4-zHE" secondAttribute="centerY" id="Rp5-ii-lhM"/>
+                            <constraint firstAttribute="trailing" secondItem="Xh3-1J-09w" secondAttribute="trailing" id="uz6-Yy-APs"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Vwj-MB-rh6" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="965" y="262"/>
         </scene>
     </scenes>
 </document>
