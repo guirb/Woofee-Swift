@@ -7,50 +7,59 @@
 //
 
 import UIKit
-import FBSDKCoreKit
 import FBSDKLoginKit
 
-class ViewController: UIViewController, FBSDKLoginButtonDelegate{
-
+class ViewController: UIViewController, FBSDKLoginButtonDelegate {
+    
+    @IBOutlet weak var mLoginButton: FBSDKLoginButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        if(FBSDKAccessToken.currentAccessToken() == nil){
-            print("Not logged in...")
+        
+        mLoginButton.delegate = self
+        mLoginButton.readPermissions = ["public_profile", "email", "user_friends"]
+        
+        if FBSDKAccessToken.currentAccessToken() == nil {
+            
+            print("User is not logged in")
+        } else {
+            print("User is logged in")
+            
+            self.performSegueWithIdentifier("logggedIn", sender: self)
+            
         }
-        else{
-            print("Logged")
-        }
         
-        let logginButton = FBSDKLoginButton()
-        logginButton.readPermissions = ["public_profile", "email", "user_friends"]
-        logginButton.center = self.view.center
-        
-        logginButton.delegate = self
-        
-        self.view.addSubview(logginButton)
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
-    //MARK - Facebook Login
-    func loginButton(loginButton: FBSDKLoginButton!, didCompleteWithResult result: FBSDKLoginManagerLoginResult!, error: NSError!) {
+    
+    func loginButton(loginButton: FBSDKLoginButton!, didCompleteWithResult result: FBSDKLoginManagerLoginResult!, error: NSError!){
         
-        if(error == nil){
-            print("Login complete")
-            self.performSegueWithIdentifier("showNew", sender: self)
-        }
-        else {
+        if(error != nil)
+        {
             print(error.localizedDescription)
+            return
+        }
+        
+        if let _ = result.token {
+            
+            let protectedPage = self.storyboard?.instantiateViewControllerWithIdentifier("ProfileViewController") as! ProfileViewController
+            
+            let protectedPageNav = UINavigationController(rootViewController: protectedPage)
+            
+            let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+            
+            appDelegate.window?.rootViewController = protectedPageNav
+            
         }
     }
     
     func loginButtonDidLogOut(loginButton: FBSDKLoginButton!) {
-        print("user logged out")
+        
     }
-
+    
 }
-

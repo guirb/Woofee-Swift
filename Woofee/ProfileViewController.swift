@@ -7,89 +7,130 @@
 //
 
 import UIKit
+import FBSDKLoginKit
 
-class ProfileViewController: UITableViewController {
-
+class ProfileViewController: UIViewController, FBSDKLoginButtonDelegate {
+    
+    struct FacebookUser {
+        
+        var id: String?
+        var name: String?
+        var firstName: String?
+        var lastName: String?
+        var email: String?
+        var photo: UIImage?
+        
+        
+        init(id: String, name: String, firstName: String, lastName: String, email: String, photo: UIImage!){
+            self.id = id
+            self.name = name
+            self.firstName = firstName
+            self.lastName = lastName
+            self.email = email
+            self.photo = photo
+            
+        }
+        
+    }
+    
+    private var mFacebookUser: FacebookUser?
+    
+    @IBOutlet weak var mProfileImageView: UIImageView!
+    
+    @IBOutlet weak var mNameLabel: UILabel!
+    
+    @IBOutlet weak var mEmailLabel: UILabel!
+    
+    @IBOutlet weak var mFacebookButton: FBSDKLoginButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        
+        // Do any additional setup after loading the view.
+        
+        if FBSDKAccessToken.currentAccessToken() == nil {
+            print("User is not logged in")
+        } else {
+            print("User is logged in")
+            
+            returnCurrentFacebookUser()
+        }
+        
+        mFacebookButton.delegate = self
+        
+        
+        
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
-    // MARK: - Table view data source
-
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
+    
+    
+    func loginButton(loginButton: FBSDKLoginButton!, didCompleteWithResult result: FBSDKLoginManagerLoginResult!, error: NSError!){
+        
+        if(error != nil)
+        {
+            print(error.localizedDescription)
+            return
+        }
+        
+        if let _ = result.token {
+            
+            let protectedPage = self.storyboard?.instantiateViewControllerWithIdentifier("ViewController") as! ViewController
+            
+            let protectedPageNav = UINavigationController(rootViewController: protectedPage)
+            
+            let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+            
+            appDelegate.window?.rootViewController = protectedPageNav
+            
+        }
+        
     }
-
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 0
+    
+    func loginButtonDidLogOut(loginButton: FBSDKLoginButton!) {
+        
+        let vc = self.storyboard!.instantiateViewControllerWithIdentifier("ViewController") as! ViewController
+        self.presentViewController(vc, animated: true, completion: nil)
+        
     }
-
-    /*
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath)
-
-        // Configure the cell...
-
-        return cell
+    
+    func returnCurrentFacebookUser() -> FacebookUser? {
+        
+        var photoRequest: UIImage?
+        let userID: String = FBSDKAccessToken.currentAccessToken().userID
+        
+        if FBSDKAccessToken.currentAccessToken() != nil {
+            
+            let facebookProfileUrl = NSURL(string: "http://graph.facebook.com/\(userID)/picture?type=large")
+            
+            if let data = NSData(contentsOfURL: facebookProfileUrl!) {
+                photoRequest = UIImage(data: data)!
+            }
+            
+            
+            FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "id, name, first_name, last_name, picture.type(large), email"]).startWithCompletionHandler({ (connection, result, error) -> Void in
+                if error == nil {
+                    let userRequest = result as! NSDictionary
+                    
+                    self.mFacebookUser = FacebookUser(id: userRequest.valueForKey("id")! as! String,
+                        name: userRequest.valueForKey("name") as! String,
+                        firstName: userRequest.valueForKey("first_name") as! String,
+                        lastName: userRequest.valueForKey("last_name") as! String,
+                        email: userRequest.valueForKey("email") as! String,
+                        photo: photoRequest)
+                    
+                    self.mProfileImageView.image = self.mFacebookUser?.photo
+                    self.mNameLabel.text = self.mFacebookUser?.name
+                    self.mEmailLabel.text = self.mFacebookUser?.email
+                }
+            })
+        }
+        
+        return nil
+        
     }
-    */
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if editingStyle == .Delete {
-            // Delete the row from the data source
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-        } else if editingStyle == .Insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(tableView: UITableView, moveRowAtIndexPath fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+    
 }
